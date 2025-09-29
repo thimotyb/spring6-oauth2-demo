@@ -3,25 +3,15 @@
   "enabled": true,
   "sslRequired": "none",
   "registrationAllowed": false,
-  "privateKey": "",
-  "publicKey": "",
-  "certificate": "",
-  "codeSecret": "",
   "roles": {
     "realm": [
       {
         "name": "user",
-        "description": "User role for ticket management",
-        "composite": false,
-        "clientRole": false,
-        "containerId": "ticket-realm"
+        "description": "User role for ticket management"
       },
       {
         "name": "admin",
-        "description": "Admin role for ticket management",
-        "composite": false,
-        "clientRole": false,
-        "containerId": "ticket-realm"
+        "description": "Admin role for ticket management"
       }
     ]
   },
@@ -61,7 +51,6 @@
     {
       "clientId": "ticket-api",
       "name": "Ticket API Client",
-      "description": "OAuth2 client for Ticket API",
       "enabled": true,
       "publicClient": false,
       "bearerOnly": true,
@@ -69,17 +58,11 @@
       "implicitFlowEnabled": false,
       "directAccessGrantsEnabled": false,
       "serviceAccountsEnabled": false,
-      "frontchannelLogout": false,
-      "protocol": "openid-connect",
-      "attributes": {
-        "access.token.lifespan": "300",
-        "access.token.signed.response.alg": "RS256"
-      }
+      "protocol": "openid-connect"
     },
     {
       "clientId": "ticket-client",
       "name": "Ticket Client Application",
-      "description": "Client application for testing",
       "enabled": true,
       "publicClient": true,
       "bearerOnly": false,
@@ -87,38 +70,9 @@
       "implicitFlowEnabled": false,
       "directAccessGrantsEnabled": true,
       "serviceAccountsEnabled": false,
-      "frontchannelLogout": true,
       "protocol": "openid-connect",
       "redirectUris": ["http://localhost:8080/*", "http://localhost:3000/*"],
-      "webOrigins": ["http://localhost:8080", "http://localhost:3000"],
-      "attributes": {
-        "access.token.lifespan": "300"
-      },
-      "defaultClientScopes": ["openid", "profile", "email", "roles"],
-      "optionalClientScopes": []
+      "webOrigins": ["http://localhost:8080", "http://localhost:3000"]
     }
-  ],
-  "clientScopes": [
-    {
-      "name": "tickets",
-      "description": "Ticket management scope",
-      "protocol": "openid-connect",
-      "attributes": {
-        "include.in.token.scope": "true",
-        "display.on.consent.screen": "true"
-      }
-    }
-  ],
-  "browserFlow": "browser",
-  "registrationFlow": "registration",
-  "directGrantFlow": "direct grant",
-  "resetCredentialsFlow": "reset credentials",
-  "clientAuthenticationFlow": "clients",
-  "attributes": {
-    "frontendUrl": "http://localhost:9090/",
-    "adminEventsEnabled": false,
-    "adminEventsDetailsEnabled": false,
-    "eventsEnabled": false,
-    "eventsListeners": ["jboss-logging"]
-  }
+  ]
 }

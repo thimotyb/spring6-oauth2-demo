@@ -8,6 +8,9 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.oauth2.jwt.Jwt;
+import org.springframework.security.oauth2.jwt.JwtDecoder;
+import org.springframework.security.oauth2.jwt.JwtValidators;
+import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
 import org.springframework.security.oauth2.server.resource.authentication.JwtGrantedAuthoritiesConverter;
 import org.springframework.security.web.SecurityFilterChain;
@@ -35,6 +38,7 @@ public class SecurityConfig {
             )
             .oauth2ResourceServer(oauth2 -> oauth2
                 .jwt(jwt -> jwt
+                    .decoder(jwtDecoder())
                     .jwtAuthenticationConverter(jwtAuthenticationConverter())
                 )
             )
@@ -42,6 +46,19 @@ public class SecurityConfig {
             .headers(headers -> headers.frameOptions().disable());
 
         return http.build();
+    }
+
+    @Bean
+    public JwtDecoder jwtDecoder() {
+        NimbusJwtDecoder decoder = NimbusJwtDecoder
+                .withJwkSetUri("http://keycloak:9090/realms/ticket-realm/protocol/openid-connect/certs")
+                .build();
+
+        // Only validate expiration, not issuer - this allows tokens from localhost:9090 to work
+        // when the API is running inside Docker
+        decoder.setJwtValidator(JwtValidators.createDefaultWithIssuer("http://localhost:9090/realms/ticket-realm"));
+
+        return decoder;
     }
 
     @Bean

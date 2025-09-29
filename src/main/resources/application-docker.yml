@@ -3,7 +3,6 @@ spring:
     oauth2:
       resourceserver:
         jwt:
-          issuer-uri: http://keycloak:9090/realms/ticket-realm
           jwk-set-uri: http://keycloak:9090/realms/ticket-realm/protocol/openid-connect/certs
 
 logging:
