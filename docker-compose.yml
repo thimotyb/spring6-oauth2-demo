@@ -23,7 +23,7 @@ services:
     networks:
       - ticket-network
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:9090/health/ready"]
+      test: ["CMD-SHELL", "bash -c 'exec 3<>/dev/tcp/localhost/9090'"]
       interval: 30s
       timeout: 10s
       retries: 5
@@ -42,7 +42,7 @@ services:
     networks:
       - ticket-network
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8080/actuator/health"]
+      test: ["CMD-SHELL", "bash -c 'exec 3<>/dev/tcp/localhost/8080'"]
       interval: 30s
       timeout: 10s
       retries: 5
